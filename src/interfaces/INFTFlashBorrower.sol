@@ -9,6 +9,7 @@ interface INFTFlashBorrower {
     /// @param fee The fee to be paid to flash borrow the NFT.
     /// @param feeToken The address of the token to be used to pay the fee.
     /// @param data The data passed to the receiver.
+    /// @return The keccak256 hash of "NFTFlashBorrower.onFlashLoan"
     function onFlashLoan(
         address initiator,
         address token,

@@ -42,8 +42,8 @@ contract ExampleFlashLender is INFTFlashLender, ERC721TokenReceiver {
         uint256 fee = flashFee(token, tokenId);
 
         // call the borrower
-        bool success = receiver.onFlashLoan(msg.sender, token, tokenId, fee, flashFeeToken, data)
-            == keccak256("ERC3156FlashBorrower.onFlashLoan");
+        bool success =
+            receiver.onFlashLoan(msg.sender, token, tokenId, fee, data) == keccak256("ERC3156FlashBorrower.onFlashLoan");
 
         // check that the NFT was returned by the borrower
         require(ERC721(token).ownerOf(tokenId) == address(this), "NFTFlashLender: NFT not returned by borrower");

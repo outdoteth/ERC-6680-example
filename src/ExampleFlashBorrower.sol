@@ -18,14 +18,11 @@ contract ExampleFlashBorrower is INFTFlashBorrower, ERC721TokenReceiver {
         lender.flashLoan(this, token, tokenId, data);
     }
 
-    function onFlashLoan(
-        address initiator,
-        address token,
-        uint256 tokenId,
-        uint256 fee,
-        address feeToken,
-        bytes calldata data
-    ) external override returns (bytes32) {
+    function onFlashLoan(address initiator, address token, uint256 tokenId, uint256 fee, bytes calldata data)
+        external
+        override
+        returns (bytes32)
+    {
         require(msg.sender == address(lender), "NFTFlashBorrower: untrusted lender");
         require(initiator == address(this), "NFTFlashBorrower: untrusted initiator");
 
@@ -37,7 +34,7 @@ contract ExampleFlashBorrower is INFTFlashBorrower, ERC721TokenReceiver {
         ERC721(token).safeTransferFrom(address(this), msg.sender, tokenId);
 
         // approve the lender to take the fee from this contract
-        ERC20(feeToken).approve(msg.sender, fee);
+        ERC20(lender.flashFeeToken()).approve(msg.sender, fee);
 
         return keccak256("NFTFlashBorrower.onFlashLoan");
     }

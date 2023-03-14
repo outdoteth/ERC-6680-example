@@ -36,7 +36,7 @@ contract ExampleFlashBorrower is IERC3156FlashBorrower {
         // approve the lender to take the fee from this contract
         IERC20(lender.flashFeeToken()).approve(msg.sender, fee);
 
-        return keccak256("NFTFlashBorrower.onFlashLoan");
+        return keccak256("ERC3156FlashBorrower.onFlashLoan");
     }
 
     function onERC721Received(address, address, uint256, bytes memory) public returns (bytes4) {

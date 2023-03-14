@@ -39,7 +39,7 @@ contract ExampleFlashLender is IERC6680, IERC3156FlashLender {
         returns (bool)
     {
         // check that the NFT is available for a flash loan
-        require(availableForFlashLoan(token, tokenId), "NFTFlashLender: NFT not available for flash loan");
+        require(availableForFlashLoan(token, tokenId), "IERC6680: NFT not available for flash loan");
 
         // transfer the NFT to the borrower
         IERC721(token).safeTransferFrom(address(this), address(receiver), tokenId);
@@ -51,8 +51,11 @@ contract ExampleFlashLender is IERC6680, IERC3156FlashLender {
         bool success =
             receiver.onFlashLoan(msg.sender, token, tokenId, fee, data) == keccak256("ERC3156FlashBorrower.onFlashLoan");
 
+        // check that flashloan was successful
+        require(success, "IERC6680: Flash loan failed");
+
         // check that the NFT was returned by the borrower
-        require(IERC721(token).ownerOf(tokenId) == address(this), "NFTFlashLender: NFT not returned by borrower");
+        require(IERC721(token).ownerOf(tokenId) == address(this), "IERC6680: NFT not returned by borrower");
 
         // transfer the fee from the borrower
         IERC20(flashFeeToken()).transferFrom(msg.sender, address(this), fee);

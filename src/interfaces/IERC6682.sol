@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-interface IERC6680 {
+interface IERC6682 {
     /// @dev The address of the token used to pay flash loan fees.
     function flashFeeToken() external view returns (address);
 
